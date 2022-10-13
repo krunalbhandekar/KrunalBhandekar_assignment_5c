@@ -91,5 +91,20 @@ GituserController.post("/:gitusername",async(req,res)=>{
       res.send("This user Not Found");
     });
 })
+
+GituserController.delete("/:gitusername", async (req, res) => {
+  const { gitusername } = req.params;
+  const gituser = await GitUserModel.findOne({ login: gitusername });
+  if (!gituser) {
+    return res.send("This user not found");
+  }
+  const deleteuser = await GitUserModel.findOneAndDelete(
+    { login: gitusername }
+  );
+  return res.send({
+    message: "User Deleted",
+    deleteuser: deleteuser,
+  });
+});
 module.exports = GituserController;
 
